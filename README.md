@@ -36,11 +36,15 @@ Quando o horário e a imagem apontam para o mesmo conteúdo, a confiança é alt
 
 ## Instalação
 
-O projeto funciona em **Windows, macOS, Linux e SteamOS** (Steam Deck no modo Desktop). Os passos 1 e 2 mudam conforme o sistema; os passos 3 e 4 são iguais em todos.
+O projeto é compatível com **Windows, macOS, Linux e SteamOS** (Steam Deck no modo Desktop).
 
-### 1. Instalar os programas
+Os passos 1 e 2 têm instruções específicas para cada sistema operacional. Os passos 3 e 4 são iguais para todos.
 
-Você vai precisar de Git, [Claude Code](https://claude.com/claude-code), Python 3.10+, `ffmpeg` e `rclone`. Siga só o bloco do seu sistema.
+### 1. Instalar os programas necessários
+
+Você vai precisar de Git, [Claude Code](https://claude.com/claude-code), Python 3.10+, `ffmpeg` e `rclone`.
+
+Siga apenas as instruções do seu sistema operacional.
 
 **Windows** (PowerShell):
 
@@ -52,7 +56,7 @@ winget install Rclone.Rclone
 irm https://claude.ai/install.ps1 | iex
 ```
 
-Depois, feche e abra o PowerShell para que os programas novos sejam encontrados.
+Ao terminar, feche e abra o PowerShell para que os programas instalados sejam reconhecidos.
 
 **macOS** (Terminal):
 
@@ -62,9 +66,9 @@ brew install git python ffmpeg rclone
 curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-A primeira linha instala o Homebrew. No fim, ele mostra os comandos de "Next steps" para colocar o `brew` no PATH: rode esses comandos antes da segunda linha.
+A primeira linha instala o Homebrew. Antes de executar a segunda, siga as instruções de "Next steps" exibidas ao final da instalação para adicionar o `brew` ao PATH.
 
-**Linux** (terminal), conforme a distribuição:
+**Linux** (terminal). Execute os comandos correspondentes à sua distribuição:
 
 ```bash
 # Ubuntu e Debian
@@ -79,13 +83,13 @@ sudo dnf install ffmpeg --allowerasing
 sudo pacman -S git python ffmpeg rclone
 ```
 
-Em seguida, em qualquer distribuição:
+Depois, instale o Claude Code, independentemente da distribuição:
 
 ```bash
 curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-**SteamOS** (Konsole, no modo Desktop): Git, Python, ffmpeg, curl e unzip já vêm no sistema. Como o sistema é somente leitura, o rclone vai para a sua pasta pessoal:
+**SteamOS** (Konsole, no modo Desktop). Git, Python, ffmpeg, curl e unzip já vêm instalados. Como o sistema é somente leitura, o `rclone` será instalado na sua pasta pessoal:
 
 ```bash
 mkdir -p ~/.local/bin && cd /tmp
@@ -95,9 +99,11 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-Depois, feche e abra o Konsole.
+Ao terminar, feche e abra o Konsole.
 
-### 2. Baixar o projeto e instalar
+### 2. Baixar e instalar o projeto
+
+Execute os comandos correspondentes ao seu sistema operacional.
 
 **Windows** (PowerShell):
 
@@ -107,7 +113,7 @@ cd drive-video-sorter
 powershell -ExecutionPolicy Bypass -File .\setup.ps1
 ```
 
-O `-ExecutionPolicy Bypass` libera só este script; por padrão, o Windows bloqueia scripts do PowerShell.
+O `-ExecutionPolicy Bypass` permite executar este script sem alterar permanentemente a política de execução do PowerShell, que bloqueia scripts por padrão.
 
 **macOS, Linux e SteamOS** (terminal):
 
@@ -117,7 +123,11 @@ cd drive-video-sorter
 ./setup.sh
 ```
 
-O instalador confere se está tudo instalado e, se faltar algo, diz o que é e como resolver. Depois, cria o ambiente `.venv` com as dependências, copia `config.example.json` para `config.json` e instala a skill `/organizar-drive` em `~/.claude/skills/`.
+Em todos os sistemas, o instalador verifica se os programas necessários estão disponíveis e orienta como resolver eventuais pendências. Em seguida, ele:
+
+1. Cria o ambiente `.venv` e instala as dependências.
+2. Copia `config.example.json` para `config.json`.
+3. Instala a skill `/organizar-drive` em `~/.claude/skills/`.
 
 ### 3. Criar a sua credencial do Google (uma vez, uns 5 minutos)
 

@@ -109,6 +109,7 @@ def contact_sheets(items, work, prefix, per_sheet=30, cols=6, cell=330):
 
 
 def main():
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # Windows usa cp1252 em pipes
     remote, work = sys.argv[1], Path(sys.argv[2])
     (work / "frames").mkdir(parents=True, exist_ok=True)
     files = json.loads(subprocess.run(["rclone", "lsjson", "--files-only", f"{remote}:"],

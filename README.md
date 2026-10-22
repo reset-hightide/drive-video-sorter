@@ -36,42 +36,88 @@ Quando o horário e a imagem apontam para o mesmo conteúdo, a confiança é alt
 
 ## Instalação
 
-O projeto funciona em **Windows, macOS, Linux e SteamOS** (Steam Deck no modo Desktop). Os comandos variam conforme o sistema operacional.
+O projeto funciona em **Windows, macOS, Linux e SteamOS** (Steam Deck no modo Desktop). Os passos 1 e 2 mudam conforme o sistema; os passos 3 e 4 são iguais em todos.
 
 ### 1. Instalar os programas
 
-Você vai precisar de [Claude Code](https://claude.com/claude-code), Git, Python 3.10+, `ffmpeg` e `rclone`.
+Você vai precisar de Git, [Claude Code](https://claude.com/claude-code), Python 3.10+, `ffmpeg` e `rclone`. Siga só o bloco do seu sistema.
 
-Use os comandos da coluna correspondente ao seu sistema:
+**Windows** (PowerShell):
 
-| | Windows (PowerShell) | macOS | Linux | SteamOS |
-|---|---|---|---|---|
-| Claude Code | `irm https://claude.ai/install.ps1 \| iex` | `curl -fsSL https://claude.ai/install.sh \| bash` | igual ao macOS | igual ao macOS |
-| Git | `winget install Git.Git` | `xcode-select --install` | `sudo apt install git` | já vem instalado |
-| Python | `winget install Python.Python.3.13` | `brew install python` | já vem instalado | já vem instalado |
-| ffmpeg | `winget install Gyan.FFmpeg` | `brew install ffmpeg` | `sudo apt install ffmpeg` | já vem instalado |
-| rclone | `winget install Rclone.Rclone` | `brew install rclone` | `sudo apt install rclone` | veja abaixo |
+```powershell
+winget install Git.Git
+winget install Python.Python.3.13
+winget install Gyan.FFmpeg
+winget install Rclone.Rclone
+irm https://claude.ai/install.ps1 | iex
+```
 
-No SteamOS, o sistema é somente leitura. Por isso, instale o rclone na sua pasta pessoal:
+Depois, feche e abra o PowerShell para que os programas novos sejam encontrados.
+
+**macOS** (Terminal):
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install git python ffmpeg rclone
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+A primeira linha instala o Homebrew. No fim, ele mostra os comandos de "Next steps" para colocar o `brew` no PATH: rode esses comandos antes da segunda linha.
+
+**Linux** (terminal), conforme a distribuição:
+
+```bash
+# Ubuntu e Debian
+sudo apt update && sudo apt install git python3 python3-venv ffmpeg rclone
+
+# Fedora (o ffmpeg completo vem do RPM Fusion)
+sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf install git python3 rclone
+sudo dnf install ffmpeg --allowerasing
+
+# Arch
+sudo pacman -S git python ffmpeg rclone
+```
+
+Em seguida, em qualquer distribuição:
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+**SteamOS** (Konsole, no modo Desktop): Git, Python, ffmpeg, curl e unzip já vêm no sistema. Como o sistema é somente leitura, o rclone vai para a sua pasta pessoal:
 
 ```bash
 mkdir -p ~/.local/bin && cd /tmp
 curl -LO https://downloads.rclone.org/rclone-current-linux-amd64.zip
-unzip -j rclone-current-linux-amd64.zip '*/rclone' -d ~/.local/bin
+unzip -j -o rclone-current-linux-amd64.zip '*/rclone' -d ~/.local/bin
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-### 2. Baixar o projeto
+Depois, feche e abra o Konsole.
 
-Execute os comandos abaixo no terminal. No Windows, use o PowerShell; no macOS, Linux e SteamOS, use o terminal do sistema.
+### 2. Baixar o projeto e instalar
+
+**Windows** (PowerShell):
+
+```powershell
+git clone https://github.com/reset-hightide/drive-video-sorter.git
+cd drive-video-sorter
+powershell -ExecutionPolicy Bypass -File .\setup.ps1
+```
+
+O `-ExecutionPolicy Bypass` libera só este script; por padrão, o Windows bloqueia scripts do PowerShell.
+
+**macOS, Linux e SteamOS** (terminal):
 
 ```bash
 git clone https://github.com/reset-hightide/drive-video-sorter.git
 cd drive-video-sorter
-./setup.sh          # macOS, Linux e SteamOS
-.\setup.ps1         # Windows (PowerShell)
+./setup.sh
 ```
 
-O instalador cria o ambiente `.venv` com as dependências, copia `config.example.json` para `config.json` e instala a skill `/organizar-drive` em `~/.claude/skills/`.
+O instalador confere se está tudo instalado e, se faltar algo, diz o que é e como resolver. Depois, cria o ambiente `.venv` com as dependências, copia `config.example.json` para `config.json` e instala a skill `/organizar-drive` em `~/.claude/skills/`.
 
 ### 3. Criar a sua credencial do Google (uma vez, uns 5 minutos)
 
@@ -107,8 +153,8 @@ Ao terminar, o Claude envia um resumo pelo WhatsApp para o chat definido em `con
 Cada execução fica registrada em `runs/<data>_<nome>/`, com um arquivo `log.jsonl`. Para restaurar os arquivos e seus nomes originais, use o comando correspondente ao seu sistema:
 
 ```bash
-.venv/bin/python organize.py gdrive --undo runs/<data>_<nome>/log.jsonl            # macOS, Linux, SteamOS
-.venv\Scripts\python.exe organize.py gdrive --undo runs/<data>_<nome>/log.jsonl   # Windows
+.venv/bin/python organize.py gdrive --undo runs/<data>_<nome>/log.jsonl              # macOS, Linux, SteamOS
+.\.venv\Scripts\python.exe organize.py gdrive --undo runs/<data>_<nome>/log.jsonl   # Windows (PowerShell)
 ```
 
 ## Em outra máquina

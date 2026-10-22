@@ -14,6 +14,7 @@ from faster_whisper import WhisperModel
 
 
 def main():
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # Windows usa cp1252 em pipes
     folder = Path(sys.argv[1])
     model = WhisperModel(sys.argv[2] if len(sys.argv) > 2 else "small",
                          device="cpu", compute_type="int8", cpu_threads=8)

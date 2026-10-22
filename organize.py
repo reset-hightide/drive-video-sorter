@@ -136,6 +136,7 @@ def undo(drive, log_path):
 
 
 def main():
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # Windows usa cp1252 em pipes
     drive = Drive(sys.argv[1])
     if sys.argv[2] == "--undo":
         undo(drive, sys.argv[3])

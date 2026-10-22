@@ -179,6 +179,7 @@ def extract(item, tok, outdir):
 
 
 def main():
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # Windows usa cp1252 em pipes
     remote, outdir = sys.argv[1], Path(sys.argv[2])
     outdir.mkdir(parents=True, exist_ok=True)
     items = json.loads(subprocess.run(

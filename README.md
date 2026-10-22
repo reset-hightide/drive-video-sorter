@@ -94,7 +94,7 @@ O navegador será aberto. Escolha a conta que tem acesso às pastas e clique em 
 
 ## Uso
 
-No Claude Code, execute o comando abaixo, substituindo o link pela URL da sua pasta e informando os conteúdos que deseja separar:
+No Claude Code, execute o comando abaixo, substituindo o link pela URL da sua pasta e informando os conteúdos que deseja separar. Os conteúdos mudam a cada pasta: nada fica fixo, e as pastas são criadas com os nomes que você passar, na ordem informada.
 
 ```
 /organizar-drive https://drive.google.com/drive/folders/XXXX 1. Workshop, 2. Depoimento da aluna, 3. Convite

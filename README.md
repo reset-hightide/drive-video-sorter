@@ -129,14 +129,41 @@ Em todos os sistemas, o instalador verifica se os programas necessários estão 
 2. Copia `config.example.json` para `config.json`.
 3. Instala a skill `/organizar-drive` em `~/.claude/skills/`.
 
-### 3. Criar a sua credencial do Google (uma vez, uns 5 minutos)
+### 3. Criar sua credencial do Google (uma vez, uns 10 minutos)
 
-A credencial padrão do rclone é compartilhada por todos e costuma estourar a cota, causando o erro 403. Com uma credencial própria, você tem uma cota exclusiva.
+A credencial padrão do rclone é compartilhada entre todos os usuários e pode atingir o limite de cota, causando o erro 403. Ao criar sua própria credencial, você passa a ter uma cota exclusiva. O processo é gratuito e não exige cartão.
 
-1. Acesse [console.cloud.google.com](https://console.cloud.google.com/projectcreate) e crie um projeto.
-2. Em **APIs e serviços → Biblioteca**, ative a **Google Drive API**.
-3. Em **Google Auth Platform**, clique em **Vamos começar** e preencha o nome e o e-mail. Em Público, escolha **Interno** se a conta for Google Workspace (o login não expira) ou **Externo** se for Gmail pessoal (adicione o seu e-mail como usuário de teste).
-4. Em **Clientes → Criar cliente**, escolha **App para computador** e copie o ID do cliente e a chave secreta.
+Use a mesma conta Google que tem acesso às pastas do Drive. As instruções usam os nomes da interface em português, com os equivalentes em inglês entre parênteses.
+
+**3.1. Criar o projeto**
+
+1. Acesse [console.cloud.google.com/projectcreate](https://console.cloud.google.com/projectcreate).
+2. Em **Nome do projeto** (Project name), digite `drive-video-sorter`. Mantenha as demais configurações.
+3. Clique em **Criar** (Create) e aguarde uns 10 segundos.
+4. No seletor do topo da página, confirme que o novo projeto está selecionado.
+
+**3.2. Ativar a Google Drive API**
+
+1. Acesse [console.cloud.google.com/apis/library/drive.googleapis.com](https://console.cloud.google.com/apis/library/drive.googleapis.com).
+2. Clique em **Ativar** (Enable).
+
+**3.3. Configurar a tela de login**
+
+1. Acesse [console.cloud.google.com/auth/overview](https://console.cloud.google.com/auth/overview) e clique em **Vamos começar** (Get started).
+2. **Informações do app** (App information): em **Nome do app**, digite `Drive Video Sorter`. Em **E-mail para suporte do usuário**, selecione seu e-mail. Clique em **Avançar** (Next).
+3. **Público** (Audience): escolha conforme o tipo de conta e clique em **Avançar**.
+   - **Interno** (Internal): para contas do Google Workspace (e-mail da empresa). O login não expira.
+   - **Externo** (External): para contas pessoais do Gmail. O app fica em modo de teste e o login expira a cada 7 dias. Quando isso acontecer, execute `rclone config reconnect gdrive:` e clique novamente em **Permitir**.
+4. **Dados de contato** (Contact information): digite seu e-mail, pressione Enter e clique em **Avançar**.
+5. **Concluir** (Finish): marque **Eu concordo com a Política de Dados do Usuário dos serviços de API do Google**, clique em **Continuar** e depois em **Criar** (Create).
+6. Apenas para **Externo**: no menu lateral, acesse **Público-alvo** (Audience). Em **Usuários de teste**, clique em **Adicionar usuários** (Add users) e adicione seu e-mail.
+
+**3.4. Criar o cliente**
+
+1. Acesse [console.cloud.google.com/auth/clients/create](https://console.cloud.google.com/auth/clients/create).
+2. Em **Tipo de aplicativo** (Application type), selecione **App para computador** (Desktop app). Mantenha o nome sugerido.
+3. Clique em **Criar** (Create).
+4. Na janela que aparecer, copie o **ID do cliente** (Client ID) e a **Chave secreta do cliente** (Client secret). Guarde os dois em um gerenciador de senhas. A chave secreta só aparece nessa janela. Se você perdê-la, poderá criar uma nova no mesmo cliente.
 
 ### 4. Conectar o rclone ao Drive
 

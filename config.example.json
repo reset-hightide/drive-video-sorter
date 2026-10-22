@@ -1,0 +1,6 @@
+{
+  "remote": "gdrive",
+  "whisper_model": "small",
+  "utc_offset": -3,
+  "whatsapp_chat": "Lembrete"
+}

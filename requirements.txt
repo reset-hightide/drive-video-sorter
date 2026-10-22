@@ -1,0 +1,4 @@
+faster-whisper>=1.2
+numpy
+openpyxl
+pillow
